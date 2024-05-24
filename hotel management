@@ -1,0 +1,80 @@
+class Hotel:
+    def __init__(self, name, rating, comments, rooms, tables, food_items):
+        self.name = name
+        self.rating = rating
+        self.comments = comments
+        self.rooms = rooms
+        self.tables = tables
+        self.food_items = food_items
+
+class Room:
+    def __init__(self, room_number, price_per_day, is_available=True):
+        self.room_number = room_number
+        self.price_per_day = price_per_day
+        self.is_available = is_available
+
+class Table:
+    def __init__(self, table_number, is_available=True):
+        self.table_number = table_number
+        self.is_available = is_available
+
+class User:
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+        self.reservations = []
+
+class HotelManagementSystem:
+    def __init__(self):
+        self.users = []
+        self.hotels = []
+
+    def add_user(self, username, password):
+        self.users.append(User(username, password))
+        
+    def add_hotel(self, hotel):
+        self.hotels.append(hotel)
+
+    def login(self, username, password):
+        for user in self.users:
+            if user.username == username and user.password == password:
+                return user
+        return None
+
+    def show_hotels(self):
+        for hotel in self.hotels:
+            print(f"Hotel: {hotel.name}, Rating: {hotel.rating}")
+            print("Comments: ")
+            for comment in hotel.comments:
+                print(comment)
+            print("Rooms: ")
+            for room in hotel.rooms:
+                status = "Available" if room.is_available else "Not Available"
+                print(f"Room {room.room_number}: {status}, Price per day: ${room.price_per_day}")
+            print("Tables: ")
+            for table in hotel.tables:
+                status = "Available" if table.is_available else "Not Available"
+                print(f"Table {table.table_number}: {status}")
+            print("Food items: ", ", ".join(hotel.food_items))
+            print("Payment methods: Credit Card, Debit Card, Cash")
+            print("-" * 40)
+
+# Sample data
+rooms = [Room(101, 100), Room(102, 150, False), Room(103, 200)]
+tables = [Table(1), Table(2, False), Table(3)]
+food_items = ["Pizza", "Pasta", "Burger"]
+
+hotel1 = Hotel("Hotel A", 4.5, ["Great service", "Clean rooms"], rooms, tables, food_items)
+
+# Create system and add sample data
+system = HotelManagementSystem()
+system.add_hotel(hotel1)
+system.add_user("admin", "password")
+
+# User login
+user = system.login("admin", "password")
+if user:
+    print("Login successful!")
+    system.show_hotels()
+else:
+    print("Invalid credentials")
